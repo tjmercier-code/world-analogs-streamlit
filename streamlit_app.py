@@ -1,4 +1,4 @@
-```python
+
 """
 World Analogs Database - Streamlit Community Cloud Deployment
 Main application file for share.streamlit.io
@@ -909,5 +909,6 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
 
 
