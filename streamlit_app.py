@@ -1,53 +1,3 @@
-# 🚀 Streamlit Community Cloud Deployment Guide
-## World Analogs Database Application
-
-### 📋 Prerequisites
-
-1. **GitHub Account** - Required for deployment
-2. **WorldAnalogs.xls file** - The USGS database file
-3. **Basic git knowledge** - For pushing code to GitHub
-
-### 📁 Repository Structure
-
-Create this exact folder structure in your GitHub repository:
-
-```
-world-analogs-streamlit/
-├── streamlit_app.py          # Main app file (must be named exactly this)
-├── requirements.txt          # Python dependencies
-├── README.md                # Repository description
-├── .streamlit/
-│   └── config.toml          # Streamlit configuration
-├── data/
-│   └── .gitkeep            # Keep folder (don't upload Excel file to git)
-├── src/
-│   ├── __init__.py
-│   ├── database.py
-│   └── utils.py
-└── assets/
-    └── style.css           # Optional custom styling
-```
-
-### 🔧 Step-by-Step Setup
-
-#### 1. Create GitHub Repository
-
-1. Go to [GitHub](https://github.com) and create a new repository
-2. Name it: `world-analogs-streamlit`
-3. Make it **Public** (required for free Streamlit Cloud)
-4. Initialize with README
-5. Clone locally:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/world-analogs-streamlit.git
-cd world-analogs-streamlit
-```
-
-#### 2. Create Required Files
-
-### 📄 File Contents
-
-#### `streamlit_app.py` (Main Application)
 ```python
 """
 World Analogs Database - Streamlit Community Cloud Deployment
@@ -83,7 +33,7 @@ st.set_page_config(
 
 # Custom CSS
 st.markdown("""
-<style>
+
     .main-header {
         font-size: 2.5rem;
         color: #1e88e5;
@@ -128,7 +78,7 @@ st.markdown("""
         border-radius: 8px;
         margin: 1rem 0;
     }
-</style>
+
 """, unsafe_allow_html=True)
 
 class WorldAnalogsDatabase:
@@ -265,7 +215,7 @@ class WorldAnalogsDatabase:
         )
         
         # Add statistics box
-        stats_text = '<br>'.join([f'<b>{k}:</b> {v:.3f}' if isinstance(v, float) else f'<b>{k}:</b> {v}' 
+        stats_text = ''.join([f'{k}: {v:.3f}' if isinstance(v, float) else f'{k}: {v}' 
                                  for k, v in stats.items()])
         
         fig.add_annotation(
@@ -282,7 +232,7 @@ class WorldAnalogsDatabase:
         
         fig.update_layout(
             title={
-                'text': f'{variable} Distribution<br><sub>{len(values)} Assessment Units</sub>',
+                'text': f'{variable} Distribution{len(values)} Assessment Units',
                 'x': 0.5,
                 'xanchor': 'center',
                 'font': {'size': 18}
@@ -365,9 +315,9 @@ def initialize_session_state():
 
 def display_header():
     """Display application header"""
-    st.markdown('<h1 class="main-header">🌍 World Analogs Database</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-header">Assessment Unit-Scale Analogs for Oil and Gas Resource Assessment</p>', unsafe_allow_html=True)
-    st.markdown('<p style="text-align: center; color: #666; font-style: italic;">Based on USGS Open-File Report 2007-1404</p>', unsafe_allow_html=True)
+    st.markdown('🌍 World Analogs Database', unsafe_allow_html=True)
+    st.markdown('Assessment Unit-Scale Analogs for Oil and Gas Resource Assessment', unsafe_allow_html=True)
+    st.markdown('Based on USGS Open-File Report 2007-1404', unsafe_allow_html=True)
     st.markdown("---")
 
 def file_upload_section():
@@ -512,7 +462,7 @@ def display_current_selection(db):
     """Display current selection summary"""
     num_selected = len(st.session_state.current_selection)
     
-    st.markdown(f'<div class="search-results">', unsafe_allow_html=True)
+    st.markdown(f'', unsafe_allow_html=True)
     st.subheader(f"🎯 Current Selection: {num_selected} Assessment Units")
     
     # Quick statistics
@@ -530,7 +480,7 @@ def display_current_selection(db):
     with col4:
         st.metric("🎯 Selection %", f"{num_selected/len(geology_df)*100:.1f}%")
     
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('', unsafe_allow_html=True)
 
 def selection_details_tab(db):
     """Selection details tab content"""
@@ -950,209 +900,14 @@ def main():
     # Footer
     st.markdown("---")
     st.markdown("""
-    <div style='text-align: center; color: #666; font-size: 0.9em;'>
-        Built with ❤️ using Streamlit • Data from USGS Open-File Report 2007-1404<br>
+    
+        Built with ❤️ using Streamlit • Data from USGS Open-File Report 2007-1404
         🌍 Deployed on Streamlit Community Cloud
-    </div>
+    
     """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
 ```
 
-#### `requirements.txt`
-```
-streamlit>=1.28.0
-pandas>=2.0.0
-numpy>=1.24.0
-plotly>=5.15.0
-openpyxl>=3.1.0
-xlrd>=2.0.0
-scipy>=1.10.0
-```
 
-#### `.streamlit/config.toml`
-```toml
-[theme]
-primaryColor = "#1e88e5"
-backgroundColor = "#ffffff"
-secondaryBackgroundColor = "#f0f2f6"
-textColor = "#262730"
-font = "sans serif"
-
-[server]
-maxUploadSize = 200
-enableCORS = false
-enableXsrfProtection = false
-
-[browser]
-gatherUsageStats = false
-```
-
-#### `README.md`
-```markdown
-# 🌍 World Analogs Database
-
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/YOUR_USERNAME/world-analogs-streamlit/main/streamlit_app.py)
-
-Assessment Unit-Scale Analogs for Oil and Gas Resource Assessment
-
-## Overview
-
-This Streamlit application replicates the functionality of the Excel macros in the USGS World Analogs Database (Open-File Report 2007-1404) in a modern, interactive web interface.
-
-## Features
-
-- **🔍 Analog Search**: Multi-criteria searches on geological classification variables
-- **📊 Field Analysis**: Comprehensive analysis of field densities and sizes  
-- **📈 Interactive Visualizations**: Plotly-based charts and histograms
-- **📄 Assessment Tools**: Generate field count and size estimates for target areas
-- **📥 Data Export**: Download selections and reports in CSV/text formats
-
-## Quick Start
-
-1. Visit the [live application](https://share.streamlit.io/YOUR_USERNAME/world-analogs-streamlit/main/streamlit_app.py)
-2. Upload the WorldAnalogs.xls file using the sidebar
-3. Use quick search presets or custom criteria to find analogs
-4. Analyze results and generate assessment reports
-
-## Local Development
-
-```bash
-# Clone repository
-git clone https://github.com/YOUR_USERNAME/world-analogs-streamlit.git
-cd world-analogs-streamlit
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run application
-streamlit run streamlit_app.py
-```
-
-## Data Source
-
-Based on: Charpentier, R.R., Klett, T.R., and Attanasi, E.D., 2008, Database for assessment unit-scale analogs (exclusive of the United States): U.S. Geological Survey Open-File Report 2007-1404, 61 p.
-
-## License
-
-MIT License - See LICENSE file for details
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
-
-## Issues
-
-Report issues and feature requests on the [GitHub Issues](https://github.com/YOUR_USERNAME/world-analogs-streamlit/issues) page.
-```
-
-### 🚀 Deployment Steps
-
-#### 1. Create GitHub Repository
-```bash
-# Create repository on GitHub, then clone locally
-git clone https://github.com/YOUR_USERNAME/world-analogs-streamlit.git
-cd world-analogs-streamlit
-
-# Create all the files above
-# Test locally first
-streamlit run streamlit_app.py
-```
-
-#### 2. Push to GitHub
-```bash
-git add .
-git commit -m "Initial deployment of World Analogs Database"
-git push origin main
-```
-
-#### 3. Deploy on Streamlit Community Cloud
-
-1. **Go to [share.streamlit.io](https://share.streamlit.io)**
-2. **Sign in** with your GitHub account
-3. **Click "New app"**
-4. **Fill in deployment details:**
-   - **Repository**: `YOUR_USERNAME/world-analogs-streamlit`
-   - **Branch**: `main`
-   - **Main file path**: `streamlit_app.py`
-   - **App URL**: `your-chosen-url` (optional custom subdomain)
-
-5. **Click "Deploy!"**
-
-#### 4. Your App is Live!
-- **URL**: `https://YOUR_USERNAME-world-analogs-streamlit.streamlit.app`
-- **Build time**: Usually 2-5 minutes
-- **Auto-updates**: Deploys automatically when you push to GitHub
-
-### 🎯 Key Advantages of Streamlit Community Cloud
-
-| Feature | Streamlit Cloud | HuggingFace | Local |
-|---------|----------------|-------------|-------|
-| **Setup Time** | 3 minutes | 5 minutes | 30 minutes |
-| **Custom Domain** | ✅ Free subdomain | ❌ Pro only | ❌ |
-| **GitHub Integration** | ✅ Auto-deploy | ✅ Auto-deploy | ❌ |
-| **Resource Limits** | 1GB RAM, 1 CPU | 16GB RAM, 2 CPU | Unlimited |
-| **File Upload Size** | 200MB | 200MB | Unlimited |
-| **Streamlit Optimized** | ✅ Native | ✅ Good | ✅ Native |
-| **Analytics** | ✅ Built-in | ❌ | ❌ |
-
-### 🔧 Advanced Configuration
-
-#### Environment Variables
-Add in Streamlit Cloud dashboard:
-```
-STREAMLIT_SERVER_MAX_UPLOAD_SIZE=200
-STREAMLIT_THEME_PRIMARY_COLOR="#1e88e5"
-```
-
-#### Secrets Management
-Create `.streamlit/secrets.toml` (not committed to git):
-```toml
-# Add any API keys or sensitive config here
-database_url = "your-secret-url"
-api_key = "your-secret-key"
-```
-
-#### Custom Domain (Pro Feature)
-- Link custom domain in Streamlit Cloud settings
-- Point your DNS to Streamlit's servers
-- Automatic SSL certificate
-
-### 🚨 Troubleshooting
-
-#### Common Issues:
-
-1. **"App failed to start"**
-   - Check requirements.txt formatting
-   - Ensure streamlit_app.py exists
-   - Review build logs in Streamlit Cloud
-
-2. **Import errors**
-   - Verify all imports are in requirements.txt
-   - Check Python version compatibility
-
-3. **File upload issues**
-   - Ensure file size < 200MB
-   - Check file format (xls/xlsx)
-
-4. **Performance issues**
-   - Consider data caching with `@st.cache_data`
-   - Optimize large dataframe operations
-   - Use session state efficiently
-
-### 🎉 Success! 
-
-Once deployed, you'll have:
-- ✅ **Professional URL** for sharing
-- ✅ **Automatic updates** from GitHub commits  
-- ✅ **Built-in analytics** and usage stats
-- ✅ **Mobile-responsive** interface
-- ✅ **Zero maintenance** hosting
-- ✅ **Community visibility** (optional)
-
-Perfect for academic presentations, client demos, and collaborative research!
