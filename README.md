@@ -1,16 +1,6 @@
----
-title: World Analogs Database
-emoji: 🌍
-colorFrom: blue
-colorTo: green
-sdk: streamlit
-sdk_version: 1.28.0
-app_file: app.py
-pinned: false
----
-
+```markdown
 # 🌍 World Analogs Database
 
-Assessment Unit-Scale Analogs for Oil and Gas Resource Assessment
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/YOUR_USERNAME/world-analogs-streamlit/main/streamlit_app.py)
 
-Upload the WorldAnalogs.xls file and start analyzing!
+Assessment Unit-Scale Analogs for Oil and Gas Resource Assessment
